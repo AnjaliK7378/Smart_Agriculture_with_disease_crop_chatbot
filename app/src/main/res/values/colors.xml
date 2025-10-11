@@ -6,5 +6,6 @@
         <color name="purple_700">#3700B3</color> <!-- Darker Purple -->
         <color name="teal_200">#03DAC5</color> <!-- Teal -->
         <color name="teal_700">#018786</color> <!-- Darker Teal -->
-
+    <color name="green_dark">#2E7D32</color>
+    <color name="green_light">#81C784</color>
 </resources>

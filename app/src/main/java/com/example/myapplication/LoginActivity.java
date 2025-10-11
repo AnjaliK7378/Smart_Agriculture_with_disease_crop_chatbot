@@ -27,12 +27,12 @@ import com.google.firebase.auth.OAuthProvider;
 public class LoginActivity extends AppCompatActivity {
 
     private static final int RC_SIGN_IN = 1001;
+    private static final int RC_TWITTER_SIGN_IN = 1002;
 
-    private Button loginButton;
     private EditText emailEditText, passwordEditText;
+    private Button loginButton;
     private TextView forgotPasswordLink, createAccountLink;
     private ImageView googleLogin, twitterLoginButton;
-
     private FirebaseAuth mAuth;
     private GoogleSignInClient mGoogleSignInClient;
     private ProgressDialog progressDialog;
@@ -45,11 +45,12 @@ public class LoginActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         progressDialog = new ProgressDialog(this);
         progressDialog.setMessage("Logging in...");
+        progressDialog.setCancelable(false);
 
         // Initialize Views
-        loginButton = findViewById(R.id.loginBtn);
         emailEditText = findViewById(R.id.emailEditText);
         passwordEditText = findViewById(R.id.password);
+        loginButton = findViewById(R.id.loginBtn);
         forgotPasswordLink = findViewById(R.id.forgotPasswordLink);
         createAccountLink = findViewById(R.id.createAccountLink);
         googleLogin = findViewById(R.id.googleLogin);
@@ -63,45 +64,17 @@ public class LoginActivity extends AppCompatActivity {
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
 
         // Email/Password Login
-        loginButton.setOnClickListener(v -> {
-            String email = emailEditText.getText().toString().trim();
-            String password = passwordEditText.getText().toString().trim();
-
-            if (!isValidEmail(email)) {
-                emailEditText.setError("Enter a valid email");
-                emailEditText.requestFocus();
-                return;
-            }
-
-            if (password.isEmpty()) {
-                passwordEditText.setError("Password cannot be empty");
-                passwordEditText.requestFocus();
-                return;
-            }
-
-            progressDialog.show();
-            mAuth.signInWithEmailAndPassword(email, password)
-                    .addOnCompleteListener(task -> {
-                        progressDialog.dismiss();
-                        if (task.isSuccessful()) {
-                            Toast.makeText(LoginActivity.this, "Login successful!", Toast.LENGTH_SHORT).show();
-                            startActivity(new Intent(LoginActivity.this, ThingSpeakDataActivity.class));
-                            finish();
-                        } else {
-                            Toast.makeText(LoginActivity.this, "Login failed: " + task.getException().getMessage(), Toast.LENGTH_LONG).show();
-                        }
-                    });
-        });
+        loginButton.setOnClickListener(v -> loginWithEmailPassword());
 
         // Forgot Password
         forgotPasswordLink.setOnClickListener(v ->
                 startActivity(new Intent(LoginActivity.this, ForgotPasswordActivity.class)));
 
-        // Sign Up
+        // Create Account
         createAccountLink.setOnClickListener(v ->
                 startActivity(new Intent(LoginActivity.this, SignUpActivity.class)));
 
-        // Google Sign-In
+        // Google Login
         googleLogin.setOnClickListener(v -> {
             mGoogleSignInClient.signOut().addOnCompleteListener(task -> {
                 Intent signInIntent = mGoogleSignInClient.getSignInIntent();
@@ -109,21 +82,62 @@ public class LoginActivity extends AppCompatActivity {
             });
         });
 
+        // Twitter Login
+        twitterLoginButton.setOnClickListener(v -> loginWithTwitter());
+    }
 
-        // Twitter Login via Firebase OAuth
-        twitterLoginButton.setOnClickListener(v -> {
-            OAuthProvider.Builder provider = OAuthProvider.newBuilder("twitter.com");
+    private void loginWithEmailPassword() {
+        String email = emailEditText.getText().toString().trim();
+        String password = passwordEditText.getText().toString().trim();
 
-            mAuth
-                    .startActivityForSignInWithProvider(LoginActivity.this, provider.build())
-                    .addOnSuccessListener(authResult -> {
-                        Toast.makeText(LoginActivity.this, "Twitter Login Successful!", Toast.LENGTH_SHORT).show();
-                        startActivity(new Intent(LoginActivity.this, ThingSpeakDataActivity.class));
+        if (!isValidEmail(email)) {
+            emailEditText.setError("Please enter a valid email");
+            emailEditText.requestFocus();
+            return;
+        }
+
+        if (password.isEmpty() || password.length() < 6) {
+            passwordEditText.setError("Password must be at least 6 characters");
+            passwordEditText.requestFocus();
+            return;
+        }
+
+        progressDialog.show();
+
+        mAuth.signInWithEmailAndPassword(email, password)
+                .addOnCompleteListener(task -> {
+                    progressDialog.dismiss();
+                    if (task.isSuccessful()) {
+                        Toast.makeText(LoginActivity.this, "Login successful!", Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(LoginActivity.this, DashboardActivity.class));
                         finish();
-                    })
-                    .addOnFailureListener(e ->
-                            Toast.makeText(LoginActivity.this, "Twitter login failed: " + e.getMessage(), Toast.LENGTH_SHORT).show());
-        });
+                    } else {
+                        Toast.makeText(LoginActivity.this, "Login failed: " + task.getException().getMessage(),
+                                Toast.LENGTH_LONG).show();
+                    }
+                });
+    }
+
+    private void loginWithTwitter() {
+        progressDialog.setMessage("Signing in with Twitter...");
+        progressDialog.show();
+
+        OAuthProvider.Builder provider = OAuthProvider.newBuilder("twitter.com");
+
+        // Customize the Twitter login flow parameters if needed
+        provider.addCustomParameter("lang", "en");
+
+        mAuth.startActivityForSignInWithProvider(this, provider.build())
+                .addOnSuccessListener(authResult -> {
+                    progressDialog.dismiss();
+                    Toast.makeText(LoginActivity.this, "Twitter Login Successful!", Toast.LENGTH_SHORT).show();
+                    startActivity(new Intent(LoginActivity.this, DashboardActivity.class));
+                    finish();
+                })
+                .addOnFailureListener(e -> {
+                    progressDialog.dismiss();
+                    Toast.makeText(LoginActivity.this, "Twitter login failed: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                });
     }
 
     @Override
@@ -144,12 +158,16 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void firebaseAuthWithGoogle(String idToken) {
+        progressDialog.setMessage("Signing in with Google...");
+        progressDialog.show();
+
         AuthCredential credential = GoogleAuthProvider.getCredential(idToken, null);
         mAuth.signInWithCredential(credential)
                 .addOnCompleteListener(this, task -> {
+                    progressDialog.dismiss();
                     if (task.isSuccessful()) {
                         Toast.makeText(LoginActivity.this, "Google Login Successful!", Toast.LENGTH_SHORT).show();
-                        startActivity(new Intent(LoginActivity.this, ThingSpeakDataActivity.class));
+                        startActivity(new Intent(LoginActivity.this, DashboardActivity.class));
                         finish();
                     } else {
                         Toast.makeText(LoginActivity.this, "Firebase Authentication Failed.", Toast.LENGTH_SHORT).show();

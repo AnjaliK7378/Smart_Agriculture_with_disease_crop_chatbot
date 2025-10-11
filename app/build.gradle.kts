@@ -17,7 +17,7 @@ android {
     }
 
     buildTypes {
-        getByName("release") {
+        release {
             isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
@@ -41,22 +41,42 @@ android {
 }
 
 dependencies {
-    implementation ("com.google.android.material:material:1.11.0")
-
-    testImplementation ("junit:junit:4.13.2")
-
     implementation(platform("org.jetbrains.kotlin:kotlin-bom:1.9.22"))
 
-    // Firebase
-    implementation(platform("com.google.firebase:firebase-bom:33.13.0"))
-    implementation("com.google.firebase:firebase-analytics-ktx:21.5.1")
-    implementation("com.google.firebase:firebase-auth-ktx:22.3.0")
-    implementation("com.google.firebase:firebase-firestore-ktx:24.10.0")
-    implementation("com.google.android.gms:play-services-auth:20.7.0")
+    // WorkManager for background tasks
+    implementation("androidx.work:work-runtime:2.7.1")
 
-    // AndroidX and Material
+    // Core dependencies
+    implementation("androidx.core:core:1.7.0")
     implementation("androidx.appcompat:appcompat:1.6.1")
-    implementation("com.google.android.material:material:1.9.0")
     implementation("androidx.activity:activity-ktx:1.7.2")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
+    implementation("com.google.android.material:material:1.11.0")
+
+    // Firebase BoM
+    implementation(platform("com.google.firebase:firebase-bom:33.13.0"))
+    implementation("com.google.firebase:firebase-analytics-ktx")
+    implementation("com.google.firebase:firebase-auth-ktx")
+    implementation("com.google.firebase:firebase-firestore-ktx")
+    implementation("com.google.android.gms:play-services-auth:20.7.0")
+
+    // Volley for HTTP
+    implementation("com.android.volley:volley:1.2.1")
+
+    // MQTT
+    implementation("org.eclipse.paho:org.eclipse.paho.client.mqttv3:1.2.5")
+    implementation("org.eclipse.paho:org.eclipse.paho.android.service:1.1.1")
+
+    // TensorFlow Lite
+    implementation("org.tensorflow:tensorflow-lite:2.4.0")
+
+    implementation ("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
+
+    // Testing
+    testImplementation("junit:junit:4.13.2")
+    androidTestImplementation("androidx.test.ext:junit:1.1.3")
+    androidTestImplementation("androidx.test.espresso:espresso-core:3.4.0")
+    implementation ("com.android.volley:volley:1.2.1")
+
+
 }

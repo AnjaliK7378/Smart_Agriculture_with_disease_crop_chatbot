@@ -1,114 +1,517 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp"
-    android:background="#F5F5F5">
+    android:background="#E8F5E9"
+    tools:context=".DashboardActivity">
+<androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+    android:id="@+id/swipeRefreshLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#E8F5E9"
+    android:layout_above="@+id/bottom_navigation">
 
-    <LinearLayout
-        android:orientation="vertical"
+
+    <!-- Scrollable Content -->
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_horizontal">
+        android:layout_height="match_parent">
 
-        <!-- Weather Section -->
-        <androidx.cardview.widget.CardView
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="12dp"
-            app:cardElevation="4dp"
-            app:cardCornerRadius="12dp">
+            android:orientation="vertical"
+            android:gravity="center_horizontal"
+            android:padding="16dp">
 
-            <LinearLayout
-                android:orientation="vertical"
-                android:padding="16dp"
+            <!-- Dashboard Title -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="24dp"
+                android:text="AgroSense Dashboard"
+                android:textColor="#1B5E20"
+                android:textSize="28sp"
+                android:textStyle="bold" />
+
+            <!-- Sensor Data Card -->
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardRealtimeData"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <TextView android:text="Current Weather"
-                    android:textStyle="bold"
-                    android:textSize="18sp"/>
-
-                <TextView android:id="@+id/textCity" android:text="City: Pune"/>
-                <TextView android:id="@+id/textWeatherTemp" android:text="Temperature: 25°C"/>
-                <TextView android:id="@+id/textWeatherHumidity" android:text="Humidity: 60%"/>
-                <TextView android:id="@+id/textWeatherCondition" android:text="Condition: Clear Sky"/>
-            </LinearLayout>
-        </androidx.cardview.widget.CardView>
-
-        <!-- Soil Section -->
-        <androidx.cardview.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="12dp"
-            app:cardElevation="4dp"
-            app:cardCornerRadius="12dp">
-
-            <LinearLayout
-                android:orientation="vertical"
-                android:padding="16dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <TextView android:text="Soil Data"
-                    android:textStyle="bold"
-                    android:textSize="18sp"/>
-
-                <TextView android:id="@+id/textSoilValue" android:text="Soil Moisture: 450 (Moist)"/>
-                <TextView android:id="@+id/textPH" android:text="pH Level: 7.0"/>
-                <TextView android:id="@+id/textNPK" android:text="NPK Level: 4.0"/>
-            </LinearLayout>
-        </androidx.cardview.widget.CardView>
-
-        <!-- Pump & Rain Section -->
-        <androidx.cardview.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="12dp"
-            app:cardElevation="4dp"
-            app:cardCornerRadius="12dp">
-
-            <LinearLayout
-                android:orientation="vertical"
-                android:padding="16dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <TextView android:text="Pump and Rain Status"
-                    android:textStyle="bold"
-                    android:textSize="18sp"/>
-
-                <TextView android:id="@+id/textPump" android:text="Pump: ON"/>
-                <TextView android:id="@+id/textRain" android:text="Rain: No Rain"/>
-            </LinearLayout>
-        </androidx.cardview.widget.CardView>
-
-        <!-- Forecast Section -->
-        <androidx.cardview.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:cardElevation="4dp"
-            app:cardCornerRadius="12dp">
-
-            <LinearLayout
-                android:orientation="vertical"
-                android:padding="16dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <TextView android:text="24-Hour Forecast"
-                    android:textStyle="bold"
-                    android:textSize="18sp"/>
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="6dp"
+                android:backgroundTint="#A5D6A7">
 
                 <LinearLayout
-                    android:id="@+id/forecastContainer"
-                    android:orientation="vertical"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <!-- Sensor Card Title -->
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="12dp"
+                        android:text="Real-time Sensor Readings"
+                        android:textColor="#000000"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
+
+                    <!-- First Row: Temperature & Humidity -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Temperature"
+                                android:textColor="#000000"
+                                android:textStyle="bold" />
+                            <TextView
+                                android:id="@+id/txtTemperature"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="N/A"
+                                android:textColor="#000000"
+                                android:textSize="18sp" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Humidity"
+                                android:textColor="#000000"
+                                android:textStyle="bold" />
+                            <TextView
+                                android:id="@+id/txtHumidity"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="N/A"
+                                android:textColor="#000000"
+                                android:textSize="18sp" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <!-- Second Row: Soil Moisture & pH -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:orientation="horizontal">
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Soil Moisture"
+                                android:textColor="#000000"
+                                android:textStyle="bold" />
+                            <TextView
+                                android:id="@+id/txtSoilMoisture"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="N/A"
+                                android:textColor="#000000"
+                                android:textSize="18sp" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="pH Value"
+                                android:textColor="#000000"
+                                android:textStyle="bold" />
+                            <TextView
+                                android:id="@+id/txtPhValue"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="N/A"
+                                android:textColor="#000000"
+                                android:textSize="18sp" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <!-- NPK Values -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:orientation="horizontal"
+                        android:gravity="center_horizontal">
+
+                        <!-- Nitrogen -->
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical"
+                            android:gravity="center">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Nitrogen (N)"
+                                android:textColor="#000000"
+                                android:textSize="14sp" />
+                            <TextView
+                                android:id="@+id/txtNitrogen"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="N: N/A ppm"
+                                android:textColor="#000000"
+                                android:textSize="16sp" />
+                        </LinearLayout>
+
+                        <!-- Phosphorus -->
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:gravity="center">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Phosphorus (P)"
+                                android:textColor="#000000"
+                                android:textSize="14sp" />
+                            <TextView
+                                android:id="@+id/txtPhosphorus"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="P: N/A ppm"
+                                android:textColor="#000000"
+                                android:textSize="16sp" />
+                        </LinearLayout>
+
+                        <!-- Potassium -->
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical"
+                            android:gravity="center">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Potassium (K)"
+                                android:textColor="#000000"
+                                android:textSize="14sp" />
+                            <TextView
+                                android:id="@+id/txtPotassium"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="K: N/A ppm"
+                                android:textColor="#000000"
+                                android:textSize="16sp" />
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                    <!-- Last Updated -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:gravity="center"
+                        android:orientation="horizontal">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Last Updated: "
+                            android:textColor="#000000"
+                            android:textStyle="bold" />
+                        <TextView
+                            android:id="@+id/txtLastUpdated"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="N/A"
+                            android:textColor="#000000"
+                            android:textSize="14sp" />
+                    </LinearLayout>
+
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- Automation Status Card -->
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardAutomationStatus"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="4dp"
+                android:backgroundTint="#C8E6C9">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="12dp"
+                        android:text="Automation And  Last Actions"
+                        android:textColor="#000000"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
+
+                    <!-- Irrigation Status -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical">
+                        <ImageView
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:contentDescription="water supply Icon"
+                            android:src="@drawable/water_supply" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
+                            android:text="Irrigation Status"
+                            android:textColor="#000000"
+                            android:textStyle="bold" />
+                        <TextView
+                            android:id="@+id/txtIrrigationStatus"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
+                            android:text="Data Unavailable"
+                            android:textColor="#000000"
+                            android:textSize="18sp" />
+                    </LinearLayout>
+
+                    <!-- Fertilizer Status -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:layout_marginTop="12dp">
+                        <ImageView
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:contentDescription="npk supply Icon"
+                            android:src="@drawable/npk_supply" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
+                            android:text="Fertilizer Status"
+                            android:textColor="#000000"
+                            android:textStyle="bold" />
+                        <TextView
+                            android:id="@+id/txtFertilizerStatus"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
+                            android:text="Data Unavailable"
+                            android:textColor="#000000"
+                            android:textSize="18sp" />
+                    </LinearLayout>
+
+                    <!-- Last Irrigation -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:layout_marginTop="12dp">
+                        <ImageView
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:contentDescription="water supply Icon"
+                            android:src="@drawable/water_supply" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
+                            android:text="Last Irrigation"
+                            android:textColor="#000000"
+                            android:textStyle="bold" />
+                        <TextView
+                            android:id="@+id/txtLastIrrigation"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
+                            android:text="Last: N/A"
+                            android:textColor="#000000"
+                            android:textSize="16sp" />
+                    </LinearLayout>
+
+                    <!-- Last Fertilization -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:layout_marginTop="12dp">
+                        <ImageView
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:contentDescription="npk supply Icon"
+                            android:src="@drawable/npk_supply" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
+                            android:text="Last Fertilization"
+                            android:textColor="#000000"
+                            android:textStyle="bold" />
+                        <TextView
+                            android:id="@+id/txtLastFertilization"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
+                            android:text="Last: N/A"
+                            android:textColor="#000000"
+                            android:textSize="16sp" />
+                    </LinearLayout>
+
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- Weather Forecast Section -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:layout_marginBottom="12dp"
+                android:text="Weather Forecast"
+                android:textColor="#2E7D32"
+                android:textSize="22sp"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:id="@+id/forecastLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" />
+
+            <!-- Refresh Button -->
+            <Button
+                android:id="@+id/btnRefresh"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:backgroundTint="#388E3C"
+                android:paddingHorizontal="24dp"
+                android:paddingVertical="12dp"
+                android:text="Refresh Data"
+                android:textColor="#FFFFFF" />
+
+            <!-- Mode Toggle Buttons -->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:gravity="center_horizontal"
+                android:orientation="horizontal">
+
+                <ToggleButton
+                    android:id="@+id/toggleAuto"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingHorizontal="16dp"
+                    android:paddingVertical="10dp"
+                    android:backgroundTint="#81C784"
+                    android:textOff="Auto Mode OFF"
+                    android:textOn="Auto Mode ON"
+                    android:textColor="#FFFFFF" />
+
+                <Space android:layout_width="16dp" android:layout_height="wrap_content" />
+
+                <ToggleButton
+                    android:id="@+id/toggleManual"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingHorizontal="16dp"
+                    android:paddingVertical="10dp"
+                    android:backgroundTint="#66BB6A"
+                    android:textOff="Manual Mode OFF"
+                    android:textOn="Manual Mode ON"
+                    android:textColor="#FFFFFF" />
 
             </LinearLayout>
-        </androidx.cardview.widget.CardView>
 
-    </LinearLayout>
-</ScrollView>
+            <!-- Manual Controls (hidden by default) -->
+            <LinearLayout
+                android:id="@+id/manualControlLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:gravity="center_horizontal"
+                android:orientation="horizontal"
+                android:visibility="gone">
+
+                <Button
+                    android:id="@+id/btnMotorOn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="#43A047"
+                    android:paddingHorizontal="24dp"
+                    android:paddingVertical="12dp"
+                    android:text="Motor ON"
+                    android:textColor="#FFFFFF" />
+
+                <Space android:layout_width="16dp" android:layout_height="wrap_content" />
+
+                <Button
+                    android:id="@+id/btnMotorOff"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="#E53935"
+                    android:paddingHorizontal="24dp"
+                    android:paddingVertical="12dp"
+                    android:text="Motor OFF"
+                    android:textColor="#FFFFFF" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
+
+</androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottom_navigation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@color/white"
+        app:menu="@menu/bottom_nav_menu"
+        app:itemIconTint="@color/bottom_nav_colors"
+        app:itemTextColor="@color/bottom_nav_colors"
+        app:labelVisibilityMode="labeled"
+        app:elevation="8dp"/>
+
+</RelativeLayout>
