@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="languages_array">
+        <item>English (en)</item>
+        <item>Hindi (hi)</item>
+        <item>Marathi (mr)</item>
+        <item>Tamil (ta)</item>
+        <item>Russian (ru)</item>
+    </string-array>
+</resources>

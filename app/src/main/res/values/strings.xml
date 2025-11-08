@@ -3,5 +3,8 @@
     <string name="default_web_client_id">399182913220-86k9jf9024ud6kk07gdbknbkcstenvcm.apps.googleusercontent.com</string>
     <string name="twitter_consumer_key">beq9uUpq0GzBgRJYTzgyNSpHm</string>
     <string name="twitter_consumer_secret">z0HOcF9QTfEXPytJBccaPklGW8JEKb1KOCU5sxKKRgokHVhnJE</string>
+    <string name="voice_input">Voice Input</string>
+    <string name="send_message">Send Message</string>
+    <string name="ask_your_query">Ask your query...</string>
 
 </resources>
