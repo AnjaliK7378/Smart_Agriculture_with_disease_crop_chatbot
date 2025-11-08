@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/nav_dashboard"
+        android:icon="@drawable/ic_home_24dp"
+        android:title="Home" />
+
+    <item
+        android:id="@+id/nav_predict"
+        android:icon="@drawable/ic_leaf_24dp"
+        android:title="Predict" />
+
+    <item
+        android:id="@+id/nav_crops"
+        android:icon="@drawable/ic_sprout_24dp"
+        android:title="Crops" />
+
+    <item
+        android:id="@+id/nav_chat"
+        android:icon="@drawable/ic_chat_24dp"
+        android:title="Chat" />
+
+</menu>
