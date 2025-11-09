@@ -75,7 +75,7 @@ public class CropRecommendationActivity extends AppCompatActivity {
 
     private void setupRetrofit() {
         retrofit = new Retrofit.Builder()
-                .baseUrl("http://172.28.102.212:5000/") // CHANGE TO YOUR PC/RPi IP
+                .baseUrl("http://xxx.xxx.xxx.xxx:xxxx/") // CHANGE TO YOUR PC/RPi IP
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         cropApi = retrofit.create(CropApi.class);
